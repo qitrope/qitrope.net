@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Product Code Verifier</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<div class="w-scree h-screen flex items-center justify-center" x-data="checkerData()">
+  <div class="bg-white shadow-xl p-12 rounded-md w-96 m-8">
+    <h1 class="text-xl font-medium text-gray-800 text-center mb-8">
+      Verify your Product
+    </h1>
+
+    <div class="bg-red-100 text-red-600 text-sm p-3 mb-4 rounded text-center" x-show="error">
+      Given Product code is Invalid
+    </div>
+    <div class="bg-green-100 text-green-600 text-sm p-3 mb-4 rounded text-center" x-show="success">
+      Product code is correct and exists
+    </div>
+
+    <div class="space-y-4">
+      <input type="text" placeholder="CODE" x-model="code" maxlength="6"
+             class="block rounded border border-gray-200 p-4 text-center text-lg w-full">
+
+      <button type="button" class="block w-full bg-blue-600 text-white p-4 rounded-md" @click="checkCode()">
+        CHECK CODE
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+<script>
+  function checkerData () {
+    return {
+      code: null,
+      error: false,
+      success: false,
+      checkCode: function () {
+        this.error = false
+        this.success = false
+
+        if (this.code.length !== 6) {
+          return this.error = true
+        }
+
+        if (this.code.search(/[a-z]/i) < 0) {
+          return this.error = true
+        }
+
+        if (this.code.search(/[0-9]/) < 0) {
+          return this.error = true
+        }
+
+        return this.success = true
+      },
+    }
+  }
+</script>
+
+</body>
+</html>
